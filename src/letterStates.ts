@@ -1,4 +1,5 @@
 import { LetterEvaluation } from "./evaluation";
+import * as R from "fp-ts/Record";
 
 export const letterStates = (guesses: string[], solution: string) => {
   const letters = [
@@ -32,13 +33,13 @@ export const letterStates = (guesses: string[], solution: string) => {
 
   return letters.reduce<Record<string, LetterEvaluation>>((map, letter) => {
     if (guesses.some((guess) => hasCorrectLetter(guess, solution, letter))) {
-      return { ...map, [letter]: "correct" };
+      return R.upsertAt<LetterEvaluation>(letter, "correct")(map);
     }
     if (guesses.some((guess) => hasPresentLetter(guess, solution, letter))) {
-      return { ...map, [letter]: "present" };
+      return R.upsertAt<LetterEvaluation>(letter, "present")(map);
     }
     if (guesses.some((guess) => hasAbsentLetter(guess, solution, letter))) {
-      return { ...map, [letter]: "absent" };
+      return R.upsertAt<LetterEvaluation>(letter, "absent")(map);
     }
     return map;
   }, {});
@@ -55,6 +56,6 @@ const hasPresentLetter = (word: string, solution: string, letter: string) => {
     .some((char, i) => char === letter && solution.includes(char));
 };
 
-const hasAbsentLetter = (word: string, solution: string, letter: string) => {
-  return word.split("").some((char, i) => char === letter);
+const hasAbsentLetter = (word: string, _solution: string, letter: string) => {
+  return word.split("").some((char) => char === letter);
 };

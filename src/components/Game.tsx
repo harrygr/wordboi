@@ -1,14 +1,15 @@
 import * as React from "react";
 
 import { gameConfig, useGameState } from "../GameState";
+import { useSolution } from "../useSolution";
 import { Board } from "./Board";
-import { GameRow } from "./GameRow";
 import { Keyboard } from "./Keyboard";
 
 interface Props {}
 
 export const Game: React.FC<Props> = ({}) => {
   const [state, dispatch] = useGameState();
+  const { solution } = useSolution();
 
   React.useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -35,7 +36,7 @@ export const Game: React.FC<Props> = ({}) => {
     return () => removeEventListener("keydown", handler);
   }, [dispatch]);
 
-  const hasWon = state.board.some((word) => word === state.solution);
+  const hasWon = state.board.some((word) => word === solution);
   const hasLost =
     !hasWon &&
     state.board.filter((word) => word !== "").length === gameConfig.maxGuesses;
@@ -49,8 +50,7 @@ export const Game: React.FC<Props> = ({}) => {
       ) : null}
       {hasLost ? (
         <div className="text-red-600">
-          You lose! The answer was{" "}
-          <span className="font-bold">{state.solution}</span>
+          You lose! The answer was <span className="font-bold">{solution}</span>
         </div>
       ) : null}
 
@@ -58,11 +58,7 @@ export const Game: React.FC<Props> = ({}) => {
         <div className="text-red-500">{state.errorMessage}</div>
       ) : null}
 
-      <Keyboard
-        dispatch={dispatch}
-        guesses={state.board}
-        solution={state.solution}
-      />
+      <Keyboard dispatch={dispatch} guesses={state.board} solution={solution} />
     </div>
   );
 };
