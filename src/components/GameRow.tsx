@@ -22,7 +22,7 @@ export const GameRow: React.FC<Props> = ({ word, submitted }) => {
         .split("")
         .map((letter): EvalutionResult => ({ letter, evaluation: "pending" }));
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 justify-center">
       {evaluations.map(({ letter, evaluation }, i) => (
         <GameTile key={i} letter={letter} status={evaluation} />
       ))}

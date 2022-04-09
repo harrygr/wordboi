@@ -83,7 +83,7 @@ const isValidLetter = (letter: any): letter is ValidLetter => {
   return validLetters.indexOf(letter) > -1;
 };
 
-type GameAction =
+export type GameAction =
   | { type: "Noop" }
   | { type: "SubmitLetter"; letter: string }
   | { type: "DeleteLetter" }
@@ -121,6 +121,7 @@ const reducer: React.Reducer<GameState, GameAction> = (state, action) => {
 
     return {
       ...state,
+      errorMessage: null,
       currentGuess: state.currentGuess.slice(0, -1),
     };
   }

@@ -1,7 +1,9 @@
 import * as React from "react";
 
 import { gameConfig, useGameState } from "../GameState";
+import { Board } from "./Board";
 import { GameRow } from "./GameRow";
+import { Keyboard } from "./Keyboard";
 
 interface Props {}
 
@@ -33,43 +35,14 @@ export const Game: React.FC<Props> = ({}) => {
     return () => removeEventListener("keydown", handler);
   }, [dispatch]);
 
-  const guessRow = state.board.findIndex((row) => row === "");
   const hasWon = state.board.some((word) => word === state.solution);
   const hasLost =
     !hasWon &&
     state.board.filter((word) => word !== "").length === gameConfig.maxGuesses;
 
-  const gameOver = hasWon || hasLost;
-
-  const submitGuess = () =>
-    !hasWon ? dispatch({ type: "SubmitGuess" }) : null;
-
   return (
-    <div className="space-y-2">
-      {state.board.map((word, rowIdx) => {
-        const rowWord =
-          word !== ""
-            ? word
-            : rowIdx === guessRow
-            ? state.currentGuess + " ".repeat(6 - state.currentGuess.length)
-            : " ".repeat(6);
-
-        return (
-          <GameRow
-            key={rowIdx}
-            word={rowWord}
-            submitted={guessRow === -1 || rowIdx < guessRow}
-          />
-        );
-      })}
-
-      <button
-        onClick={submitGuess}
-        className="px-4 py-2 border border-gray-600"
-        disabled={gameOver}
-      >
-        Submit
-      </button>
+    <div className="space-y-6">
+      <Board board={state.board} currentGuess={state.currentGuess} />
 
       {hasWon ? (
         <div className="text-green-700">Congratulations! You got it! 🎉</div>
@@ -84,6 +57,12 @@ export const Game: React.FC<Props> = ({}) => {
       {state.errorMessage ? (
         <div className="text-red-500">{state.errorMessage}</div>
       ) : null}
+
+      <Keyboard
+        dispatch={dispatch}
+        guesses={state.board}
+        solution={state.solution}
+      />
     </div>
   );
 };

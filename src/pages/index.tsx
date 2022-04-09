@@ -12,12 +12,10 @@ const Home: NextPage = () => {
 
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="container mx-auto">
-        <header>
-          <GameStateProvider>
-            <Header></Header>
-          </GameStateProvider>
-        </header>
+      <div className="container mx-auto px-4">
+        <GameStateProvider>
+          <Header />
+        </GameStateProvider>
 
         <main>
           <GameStateProvider>
