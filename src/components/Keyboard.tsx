@@ -1,12 +1,12 @@
 import * as React from "react";
 
-import * as R from "fp-ts/Record";
 import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/lib/function";
 import { LetterEvaluation } from "../evaluation";
-import { GameAction } from "../GameState";
+
 import { letterStates } from "../letterStates";
 import { getCellStyle } from "../cellStyle";
+import { GameAction } from "../GameActions";
 
 export const Key: React.FC<{
   letter: string;
