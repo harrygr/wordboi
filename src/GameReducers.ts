@@ -8,10 +8,15 @@ import { isValidLetter } from "./letterValidation";
 import { isValidWord } from "./utils";
 import * as O from "fp-ts/Option";
 import * as A from "fp-ts/Array";
-import { pipe } from "fp-ts/function";
+import { constNull, pipe } from "fp-ts/function";
+import { Lens } from "monocle-ts";
 
 const hasWon = (state: GameState) =>
   state.board.some((word) => word === state.solution);
+
+const currentGuessLens = Lens.fromProp<GameState>()("currentGuess");
+const errorMessageLens = Lens.fromProp<GameState>()("errorMessage");
+const boardLens = Lens.fromProp<GameState>()("board");
 
 export const submitLetter: React.Reducer<GameState, SubmitLetterAction> = (
   state,
@@ -26,10 +31,10 @@ export const submitLetter: React.Reducer<GameState, SubmitLetterAction> = (
     isValidLetter(sanitizedLetter) &&
     state.currentGuess.length < state.solution.length
   ) {
-    return {
-      ...state,
-      currentGuess: state.currentGuess + sanitizedLetter,
-    };
+    return pipe(
+      state,
+      currentGuessLens.modify((c) => c + sanitizedLetter)
+    );
   }
   return state;
 };
@@ -40,12 +45,11 @@ export const deleteLetter: React.Reducer<GameState, DeleteLetterAction> = (
   if (state.currentGuess.length < 1 || hasWon(state)) {
     return state;
   }
-
-  return {
-    ...state,
-    errorMessage: null,
-    currentGuess: state.currentGuess.slice(0, -1),
-  };
+  return pipe(
+    state,
+    errorMessageLens.modify(constNull),
+    currentGuessLens.modify((currentGuess) => currentGuess.slice(0, -1))
+  );
 };
 
 export const submitGuess: React.Reducer<GameState, SubmitGuessAction> = (
@@ -56,7 +60,10 @@ export const submitGuess: React.Reducer<GameState, SubmitGuessAction> = (
     return state;
   }
   if (!isValidWord(state.currentGuess)) {
-    return { ...state, errorMessage: "Not a valid word" };
+    return pipe(
+      state,
+      errorMessageLens.modify(() => "Not a valid word")
+    );
   }
 
   return pipe(
@@ -71,12 +78,13 @@ export const submitGuess: React.Reducer<GameState, SubmitGuessAction> = (
       )
     ),
     O.map(
-      (updatedBoard): GameState => ({
-        ...state,
-        currentGuess: "",
-        board: updatedBoard,
-        errorMessage: null,
-      })
+      (updatedBoard): GameState =>
+        pipe(
+          state,
+          currentGuessLens.modify(() => ""),
+          errorMessageLens.modify(constNull),
+          boardLens.modify(() => updatedBoard)
+        )
     ),
     O.getOrElse(() => state)
   );
