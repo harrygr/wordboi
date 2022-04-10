@@ -1,6 +1,8 @@
 import { getEvaluations } from "./evaluation";
 import { gameConfig, GameState } from "./GameState";
 
+
+
 export const getShareString = (
   board: GameState["board"],
   solution: string,
@@ -24,10 +26,16 @@ export const getShareString = (
         })
         .join("")
     );
+  const hasWon = board.some((word) => word === solution);
+  const guessCount = hasWon ? emojis.length : "X";
 
   return [
-    `Wordboi #${gameNumber} ${emojis.length}/${gameConfig.maxGuesses}`,
+    `Wordboi #${gameNumber} ${guessCount}/${gameConfig.maxGuesses} ${
+      hasWon ? "🎉" : "💩"
+    }`,
     "",
     emojis.join("\n"),
+    "",
+    `${window.location.protocol}//${window.location.host}`,
   ].join("\n");
 };

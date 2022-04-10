@@ -11,7 +11,7 @@ import * as A from "fp-ts/Array";
 import { constNull, pipe } from "fp-ts/function";
 import { Lens } from "monocle-ts";
 
-const hasWon = (state: GameState) =>
+export const hasWon = (state: GameState) =>
   state.board.some((word) => word === state.solution);
 
 const currentGuessLens = Lens.fromProp<GameState>()("currentGuess");

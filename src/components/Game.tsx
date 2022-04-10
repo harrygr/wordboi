@@ -3,6 +3,7 @@ import * as React from "react";
 import { gameConfig, useGameState } from "../GameState";
 import { useSolution } from "../useSolution";
 import { Board } from "./Board";
+import { FailMessage } from "./FailMessage";
 import { Keyboard } from "./Keyboard";
 import { WinMessage } from "./WinMessage";
 
@@ -47,11 +48,7 @@ export const Game: React.FC<Props> = ({}) => {
       <Board board={state.board} currentGuess={state.currentGuess} />
 
       {hasWon ? <WinMessage /> : null}
-      {hasLost ? (
-        <div className="text-red-600">
-          You lose! The answer was <span className="font-bold">{solution}</span>
-        </div>
-      ) : null}
+      {hasLost ? <FailMessage solution={solution} /> : null}
 
       {state.errorMessage ? (
         <div className="text-red-500">{state.errorMessage}</div>
