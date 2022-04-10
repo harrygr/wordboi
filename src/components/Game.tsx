@@ -4,6 +4,7 @@ import { gameConfig, useGameState } from "../GameState";
 import { useSolution } from "../useSolution";
 import { Board } from "./Board";
 import { Keyboard } from "./Keyboard";
+import { WinMessage } from "./WinMessage";
 
 interface Props {}
 
@@ -45,9 +46,7 @@ export const Game: React.FC<Props> = ({}) => {
     <div className="space-y-6">
       <Board board={state.board} currentGuess={state.currentGuess} />
 
-      {hasWon ? (
-        <div className="text-green-700">Congratulations! You got it! 🎉</div>
-      ) : null}
+      {hasWon ? <WinMessage /> : null}
       {hasLost ? (
         <div className="text-red-600">
           You lose! The answer was <span className="font-bold">{solution}</span>
