@@ -1,9 +1,13 @@
 import * as React from "react";
 import * as A from "fp-ts/Array";
-import { pipe } from "fp-ts/function";
+import * as t from "io-ts";
 import * as O from "fp-ts/Option";
-import { diffInDays, isValidWord } from "./utils";
-import { words } from "./wordList";
+import * as E from "fp-ts/Either";
+import * as J from "fp-ts/Json";
+import { pipe } from "fp-ts/function";
+
+import { isValidWord } from "./utils";
+
 import { useSolution } from "./useSolution";
 
 export const gameConfig = {
@@ -15,11 +19,14 @@ interface Props {
   children: React.ReactNode;
 }
 
-interface GameState {
-  board: string[];
-  currentGuess: string;
-  errorMessage: string | null;
-}
+const GameState = t.type({
+  board: t.array(t.string),
+  currentGuess: t.string,
+  errorMessage: t.union([t.null, t.string]),
+  solution: t.string,
+});
+
+type GameState = t.TypeOf<typeof GameState>;
 
 type ValidLetter =
   | "a"
@@ -84,6 +91,7 @@ const isValidLetter = (letter: any): letter is ValidLetter => {
 
 export type GameAction =
   | { type: "Noop" }
+  | { type: "InitState"; state: GameState }
   | { type: "SubmitLetter"; letter: string }
   | { type: "DeleteLetter" }
   | { type: "SubmitGuess" };
@@ -95,6 +103,10 @@ const GameStateContext = React.createContext<
 const reducer =
   (solution: string): React.Reducer<GameState, GameAction> =>
   (state, action) => {
+    if (action.type === "InitState") {
+      return action.state;
+    }
+
     const hasWon = state.board.some((word) => word === solution);
 
     if (action.type === "SubmitLetter") {
@@ -164,13 +176,44 @@ const reducer =
 export const GameStateProvider: React.FC<Props> = ({ children }) => {
   const { solution } = useSolution();
 
-  const initialState: GameState = {
-    board: Array.from({ length: gameConfig.maxGuesses }).map(() => ""),
-    currentGuess: "",
-    errorMessage: null,
-  };
+  const initialState: GameState = React.useMemo(
+    () => ({
+      board: Array.from({ length: gameConfig.maxGuesses }).map(() => ""),
+      currentGuess: "",
+      errorMessage: null,
+      solution,
+    }),
+    [solution]
+  );
 
   const [state, dispatch] = React.useReducer(reducer(solution), initialState);
+
+  React.useEffect(() => {
+    // persist the game state when a new guess is submitted
+    if (state.board.some((g) => g !== "")) {
+      pipe(
+        state,
+        J.stringify,
+        O.fromEither,
+        O.map((s) => localStorage.setItem("gameState", s))
+      );
+    }
+  }, [state.board]);
+
+  React.useEffect(() => {
+    // load any persisted state if the solution matches the currect solution
+    pipe(
+      localStorage.getItem("gameState") ?? "",
+      J.parse,
+      E.chain<any, unknown, GameState>(GameState.decode),
+      O.fromEither,
+      O.filter((state) => state.solution === solution),
+      O.map((state) => {
+        // the persisted state matches the current game, so use it
+        dispatch({ type: "InitState", state });
+      })
+    );
+  }, [solution, initialState]);
 
   return (
     <GameStateContext.Provider value={[state, dispatch]}>

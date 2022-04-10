@@ -13,9 +13,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="container mx-auto px-4">
-        <GameStateProvider>
-          <Header />
-        </GameStateProvider>
+        <Header />
 
         <main>
           <GameStateProvider>

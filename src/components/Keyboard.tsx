@@ -54,7 +54,7 @@ export const Keyboard: React.FC<{
         <Key letterStates={ls} dispatch={dispatch} letter="p" />
       </div>
       <div className="flex space-x-1">
-        <div className="flex-[0.5]" />
+        <div className="flex-[0.5] -mr-1" />
         <Key letterStates={ls} dispatch={dispatch} letter="a" />
         <Key letterStates={ls} dispatch={dispatch} letter="s" />
         <Key letterStates={ls} dispatch={dispatch} letter="d" />
