@@ -67,7 +67,15 @@ export const GameStats: React.FC<Props> = ({ isOpen, setIsOpen, results }) => {
             <div>
               <h3 className="font-semibold mb-2">Win rate</h3>
               <p className="text-4xl">
-                {Math.round((wins / gamesPlayed) * 100)}%
+                {pipe(
+                  gamesPlayed,
+                  O.fromPredicate((n) => n > 0),
+                  O.map((gamesPlayed) =>
+                    Math.round((wins / gamesPlayed) * 100)
+                  ),
+                  O.getOrElseW(() => "-")
+                )}
+                %
               </p>
             </div>
             <div>
