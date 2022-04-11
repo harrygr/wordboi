@@ -98,8 +98,12 @@ export const GameStats: React.FC<Props> = ({ isOpen, setIsOpen, results }) => {
                     <div className="tabular-nums mr-2">{guessCount}</div>
                     <div className="flex-1">
                       <div
-                        className="h-5 bg-gray-700 min-w-[24px] text-white flex justify-end items-center px-2 text-xs"
-                        style={{ width: `${(freq / maxGuessFreq) * 100}%` }}
+                        className="h-5 bg-gray-700 text-white inline-flex justify-end items-center px-2 text-xs"
+                        style={
+                          freq > 0
+                            ? { width: `${(freq / maxGuessFreq) * 100}%` }
+                            : undefined
+                        }
                       >
                         {freq}
                       </div>
