@@ -2,14 +2,19 @@ import * as React from "react";
 
 import { gameConfig, useGameState } from "../GameState";
 import { useSolution } from "../useSolution";
+import { useStats } from "../useStats";
 import { Board } from "./Board";
 import { FailMessage } from "./FailMessage";
+import { GameStats } from "./GameStats";
 import { Keyboard } from "./Keyboard";
 import { WinMessage } from "./WinMessage";
 
-interface Props {}
+interface Props {
+  statsVisible: boolean;
+  setStatsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-export const Game: React.FC<Props> = ({}) => {
+export const Game: React.FC<Props> = ({ statsVisible, setStatsVisible }) => {
   const [state, dispatch] = useGameState();
   const { solution } = useSolution();
 
@@ -43,6 +48,8 @@ export const Game: React.FC<Props> = ({}) => {
     !hasWon &&
     state.board.filter((word) => word !== "").length === gameConfig.maxGuesses;
 
+  const results = useStats(state);
+
   return (
     <div className="space-y-6">
       <Board board={state.board} currentGuess={state.currentGuess} />
@@ -55,6 +62,11 @@ export const Game: React.FC<Props> = ({}) => {
       ) : null}
 
       <Keyboard dispatch={dispatch} guesses={state.board} solution={solution} />
+      <GameStats
+        results={results}
+        isOpen={statsVisible}
+        setIsOpen={setStatsVisible}
+      />
     </div>
   );
 };

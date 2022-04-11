@@ -76,20 +76,22 @@ export const GameStateProvider: React.FC<Props> = ({ children }) => {
         O.map((s) => localStorage.setItem("gameState", s))
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.board]);
 
   React.useEffect(() => {
-    // load any persisted state if the solution matches the currect solution
+    // load any persisted state if the solution matches the current solution
     pipe(
       localStorage.getItem("gameState") ?? "",
       J.parse,
       E.chain<any, unknown, GameState>(GameState.decode),
       O.fromEither,
       O.filter((state) => state.solution === solution),
-      O.map((state) => {
+      O.fold(
+        () => dispatch({ type: "InitState", state: initialState }),
         // the persisted state matches the current game, so use it
-        dispatch({ type: "InitState", state });
-      })
+        (state) => dispatch({ type: "InitState", state })
+      )
     );
   }, [solution, initialState]);
 
