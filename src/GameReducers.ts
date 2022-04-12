@@ -10,9 +10,10 @@ import * as O from "fp-ts/Option";
 import * as A from "fp-ts/Array";
 import { constNull, pipe } from "fp-ts/function";
 import { Lens } from "monocle-ts";
+import { wordList } from "./wordList";
 
 export const hasWon = (state: GameState) =>
-  state.board.some((word) => word === state.solution);
+  state.board.some((word) => word === wordList[state.gameNumber]);
 
 const currentGuessLens = Lens.fromProp<GameState>()("currentGuess");
 const errorMessageLens = Lens.fromProp<GameState>()("errorMessage");
@@ -26,10 +27,11 @@ export const submitLetter: React.Reducer<GameState, SubmitLetterAction> = (
     return state;
   }
 
+  const solution = wordList[state.gameNumber];
   const sanitizedLetter = action.letter.toLowerCase();
   if (
     isValidLetter(sanitizedLetter) &&
-    state.currentGuess.length < state.solution.length
+    state.currentGuess.length < solution.length
   ) {
     return pipe(
       state,
@@ -56,7 +58,8 @@ export const submitGuess: React.Reducer<GameState, SubmitGuessAction> = (
   state,
   _action
 ) => {
-  if (state.currentGuess.length !== state.solution.length || hasWon(state)) {
+  const solution = wordList[state.gameNumber];
+  if (state.currentGuess.length !== solution.length || hasWon(state)) {
     return state;
   }
   if (!isValidWord(state.currentGuess)) {

@@ -8,6 +8,7 @@ import { pipe } from "fp-ts/function";
 import { useSolution } from "./useSolution";
 import { GameAction } from "./GameActions";
 import { deleteLetter, submitGuess, submitLetter } from "./GameReducers";
+import { wordList } from "./wordList";
 
 export const gameConfig = {
   firstDay: new Date(2022, 3, 1),
@@ -22,7 +23,7 @@ const GameState = t.type({
   board: t.array(t.string),
   currentGuess: t.string,
   errorMessage: t.union([t.null, t.string]),
-  solution: t.string,
+  gameNumber: t.number,
 });
 
 export type GameState = t.TypeOf<typeof GameState>;
@@ -52,16 +53,16 @@ const reducer: React.Reducer<GameState, GameAction> = (state, action) => {
 };
 
 export const GameStateProvider: React.FC<Props> = ({ children }) => {
-  const { solution } = useSolution();
+  const { solution, gameNumber } = useSolution();
 
   const initialState: GameState = React.useMemo(
     () => ({
       board: Array.from({ length: gameConfig.maxGuesses }).map(() => ""),
       currentGuess: "",
       errorMessage: null,
-      solution,
+      gameNumber,
     }),
-    [solution]
+    [gameNumber]
   );
 
   const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -86,14 +87,14 @@ export const GameStateProvider: React.FC<Props> = ({ children }) => {
       J.parse,
       E.chain<any, unknown, GameState>(GameState.decode),
       O.fromEither,
-      O.filter((state) => state.solution === solution),
+      O.filter((state) => state.gameNumber === gameNumber),
       O.fold(
         () => dispatch({ type: "InitState", state: initialState }),
         // the persisted state matches the current game, so use it
         (state) => dispatch({ type: "InitState", state })
       )
     );
-  }, [solution, initialState]);
+  }, [gameNumber, initialState]);
 
   return (
     <GameStateContext.Provider value={[state, dispatch]}>

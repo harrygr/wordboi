@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { gameConfig } from "./GameState";
 import { diffInDays } from "./utils";
-import { words } from "./wordList";
+import { wordList } from "./wordList";
 
 export const useSolution = () => {
   const router = useRouter();
@@ -17,7 +17,7 @@ export const useSolution = () => {
       : diffInDays(new Date(), gameConfig.firstDay);
   }, [router.query.n]);
 
-  const solution = React.useMemo(() => words[gameNumber], [gameNumber]);
+  const solution = React.useMemo(() => wordList[gameNumber], [gameNumber]);
 
   return { gameNumber, solution };
 };
