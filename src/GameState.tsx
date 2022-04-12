@@ -7,7 +7,12 @@ import { pipe } from "fp-ts/function";
 
 import { useSolution } from "./useSolution";
 import { GameAction } from "./GameActions";
-import { deleteLetter, submitGuess, submitLetter } from "./GameReducers";
+import {
+  deleteLetter,
+  setError,
+  submitGuess,
+  submitLetter,
+} from "./GameReducers";
 
 export const gameConfig = {
   firstDay: new Date(2022, 3, 1),
@@ -46,6 +51,9 @@ const reducer: React.Reducer<GameState, GameAction> = (state, action) => {
 
   if (action.type === "SubmitGuess") {
     return submitGuess(state, action);
+  }
+  if (action.type === "SetError") {
+    return setError(state, action);
   }
 
   return state;

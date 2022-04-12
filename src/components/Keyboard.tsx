@@ -34,7 +34,8 @@ export const Keyboard: React.FC<{
   dispatch: React.Dispatch<GameAction>;
   guesses: string[];
   solution: string;
-}> = ({ dispatch, guesses, solution }) => {
+  submitGuess: () => void;
+}> = ({ dispatch, guesses, solution, submitGuess }) => {
   const ls = React.useMemo(
     () => letterStates(guesses, solution),
     [guesses, solution]
@@ -69,7 +70,7 @@ export const Keyboard: React.FC<{
       <div className="flex space-x-1">
         <button
           className="bg-gray-300 rounded-md flex justify-center items-center h-12 flex-[1.5]"
-          onClick={() => dispatch({ type: "SubmitGuess" })}
+          onClick={submitGuess}
         >
           ↩
         </button>

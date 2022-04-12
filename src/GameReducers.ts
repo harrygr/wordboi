@@ -1,11 +1,12 @@
 import {
   DeleteLetterAction,
+  SetErrorAction,
   SubmitGuessAction,
   SubmitLetterAction,
 } from "./GameActions";
 import { GameState } from "./GameState";
 import { isValidLetter } from "./letterValidation";
-import { isValidWord } from "./utils";
+// import { isValidWord } from "./utils";
 import * as O from "fp-ts/Option";
 import * as A from "fp-ts/Array";
 import { constNull, pipe } from "fp-ts/function";
@@ -59,12 +60,12 @@ export const submitGuess: React.Reducer<GameState, SubmitGuessAction> = (
   if (state.currentGuess.length !== state.solution.length || hasWon(state)) {
     return state;
   }
-  if (!isValidWord(state.currentGuess)) {
-    return pipe(
-      state,
-      errorMessageLens.modify(() => "Not a valid word")
-    );
-  }
+  // if (!isValidWord(state.currentGuess)) {
+  //   return pipe(
+  //     state,
+  //     errorMessageLens.modify(() => "Not a valid word")
+  //   );
+  // }
 
   return pipe(
     O.of(state.currentGuess),
@@ -87,5 +88,15 @@ export const submitGuess: React.Reducer<GameState, SubmitGuessAction> = (
         )
     ),
     O.getOrElse(() => state)
+  );
+};
+
+export const setError: React.Reducer<GameState, SetErrorAction> = (
+  state,
+  { error }
+) => {
+  return pipe(
+    state,
+    errorMessageLens.modify(() => error)
   );
 };
