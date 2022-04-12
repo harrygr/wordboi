@@ -557,6 +557,7 @@ export const wordList = [
   "sexier",
   "castle",
   // --- words below this have not been approved ---
+  /** 
   "dormie",
   "ellice",
   "profre",
@@ -24743,4 +24744,5 @@ export const wordList = [
   "hewers",
   "eunuch",
   "sharpy",
+  */
 ];

@@ -1,6 +1,5 @@
 import React from "react";
 import { gameConfig, GameState } from "./GameState";
-import { useSolution } from "./useSolution";
 import * as t from "io-ts";
 import * as E from "fp-ts/Either";
 import * as J from "fp-ts/Json";
