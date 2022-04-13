@@ -7,7 +7,7 @@ describe("submitLetter", () => {
       board: ["", "", ""],
       currentGuess: "foo",
       errorMessage: null,
-      solution: "floor",
+      gameNumber: 1,
     };
 
     const newState = submitLetter(state, { type: "SubmitLetter", letter: "d" });
@@ -18,15 +18,15 @@ describe("submitLetter", () => {
   it("does not add a letter if the guess is the length of the solution", () => {
     const state = {
       board: ["", "", ""],
-      currentGuess: "flood",
+      currentGuess: "floods",
       errorMessage: null,
-      solution: "floor",
+      gameNumber: 1,
     };
 
     const newState = submitLetter(state, { type: "SubmitLetter", letter: "d" });
 
     expect(newState).toEqual(
-      expect.objectContaining({ currentGuess: "flood" })
+      expect.objectContaining({ currentGuess: "floods" })
     );
   });
 });
@@ -37,7 +37,7 @@ describe("deleteLetter", () => {
       board: ["", "", ""],
       currentGuess: "foo",
       errorMessage: null,
-      solution: "floor",
+      gameNumber: 1,
     };
 
     const newState = deleteLetter(state, { type: "DeleteLetter" });
@@ -50,7 +50,7 @@ describe("deleteLetter", () => {
       board: ["", "", ""],
       currentGuess: "",
       errorMessage: null,
-      solution: "floor",
+      gameNumber: 1,
     };
 
     const newState = deleteLetter(state, { type: "DeleteLetter" });
@@ -63,7 +63,7 @@ describe("deleteLetter", () => {
       board: ["", "", ""],
       currentGuess: "foo",
       errorMessage: "Oh no",
-      solution: "floor",
+      gameNumber: 1,
     };
 
     const newState = deleteLetter(state, { type: "DeleteLetter" });
@@ -82,9 +82,9 @@ describe("submitGuess", () => {
   it("submits a guess to the board, assuming a valid word", () => {
     const state = {
       board: ["", "", ""],
-      currentGuess: "flood",
+      currentGuess: "floods",
       errorMessage: null,
-      solution: "floor",
+      gameNumber: 1,
     };
 
     jest.spyOn(utils, "isValidWord").mockReturnValue(true);
@@ -94,7 +94,7 @@ describe("submitGuess", () => {
       expect.objectContaining({
         currentGuess: "",
         errorMessage: null,
-        board: ["flood", "", ""],
+        board: ["floods", "", ""],
       })
     );
   });
@@ -102,9 +102,9 @@ describe("submitGuess", () => {
   it("sets an error message for an invalid guess", () => {
     const state = {
       board: ["", "", ""],
-      currentGuess: "floog",
+      currentGuess: "floogt",
       errorMessage: null,
-      solution: "floor",
+      gameNumber: 1,
     };
 
     jest.spyOn(utils, "isValidWord").mockReturnValue(false);
@@ -112,7 +112,7 @@ describe("submitGuess", () => {
 
     expect(newState).toEqual(
       expect.objectContaining({
-        currentGuess: "floog",
+        currentGuess: "floogt",
         errorMessage: "Not a valid word",
         board: ["", "", ""],
       })
