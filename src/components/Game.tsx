@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { gameConfig, useGameState } from "../GameState";
+
 import { useSolution } from "../useSolution";
 import { useStats } from "../useStats";
 import { Board } from "./Board";

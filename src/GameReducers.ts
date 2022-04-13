@@ -4,7 +4,7 @@ import {
   SubmitGuessAction,
   SubmitLetterAction,
 } from "./GameActions";
-import { GameState } from "./GameState";
+import { gameConfig, GameState } from "./GameState";
 import { isValidLetter } from "./letterValidation";
 import { isValidWord } from "./utils";
 import * as O from "fp-ts/Option";
@@ -12,9 +12,19 @@ import * as A from "fp-ts/Array";
 import { constNull, pipe } from "fp-ts/function";
 import { Lens } from "monocle-ts";
 import { wordList } from "./wordList";
+import { reportGameResult } from "./reportGameResult";
 
-export const hasWon = (state: GameState) =>
-  state.board.some((word) => word === wordList[state.gameNumber]);
+export const gameResult = ({
+  board,
+  gameNumber,
+}: Pick<GameState, "board" | "gameNumber">) => {
+  const hasWon = board.some((word) => word === wordList[gameNumber]);
+  const hasLost =
+    !hasWon &&
+    board.filter((word) => word !== "").length >= gameConfig.maxGuesses;
+
+  return { hasWon, hasLost, hasEnded: hasWon || hasLost };
+};
 
 const currentGuessLens = Lens.fromProp<GameState>()("currentGuess");
 const errorMessageLens = Lens.fromProp<GameState>()("errorMessage");
@@ -24,7 +34,7 @@ export const submitLetter: React.Reducer<GameState, SubmitLetterAction> = (
   state,
   action
 ) => {
-  if (hasWon(state)) {
+  if (gameResult(state).hasEnded) {
     return state;
   }
 
@@ -45,7 +55,7 @@ export const submitLetter: React.Reducer<GameState, SubmitLetterAction> = (
 export const deleteLetter: React.Reducer<GameState, DeleteLetterAction> = (
   state
 ) => {
-  if (state.currentGuess.length < 1 || hasWon(state)) {
+  if (state.currentGuess.length < 1 || gameResult(state).hasEnded) {
     return state;
   }
   return pipe(
@@ -59,8 +69,11 @@ export const submitGuess: React.Reducer<GameState, SubmitGuessAction> = (
   state,
   _action
 ) => {
+  console.log("submitGuess dispatched");
   const solution = wordList[state.gameNumber];
-  if (state.currentGuess.length !== solution.length || hasWon(state)) {
+
+  const { hasEnded } = gameResult(state);
+  if (state.currentGuess.length !== solution.length || hasEnded) {
     return state;
   }
   if (!isValidWord(state.currentGuess)) {
@@ -90,7 +103,13 @@ export const submitGuess: React.Reducer<GameState, SubmitGuessAction> = (
           boardLens.modify(() => updatedBoard)
         )
     ),
-    O.getOrElse(() => state)
+    O.getOrElse(() => state),
+    (state) => {
+      // a bit of a smell to report the result in the reducer, but 🤷‍♂️
+      console.log("reporting game result");
+      reportGameResult(state);
+      return state;
+    }
   );
 };
 

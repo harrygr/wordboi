@@ -13,7 +13,6 @@ import {
   submitGuess,
   submitLetter,
 } from "./GameReducers";
-import { wordList } from "./wordList";
 
 export const gameConfig = {
   firstDay: new Date(2022, 3, 1),
