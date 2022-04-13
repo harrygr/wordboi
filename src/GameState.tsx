@@ -7,7 +7,12 @@ import { pipe } from "fp-ts/function";
 
 import { useSolution } from "./useSolution";
 import { GameAction } from "./GameActions";
-import { deleteLetter, submitGuess, submitLetter } from "./GameReducers";
+import {
+  deleteLetter,
+  setError,
+  submitGuess,
+  submitLetter,
+} from "./GameReducers";
 import { wordList } from "./wordList";
 
 export const gameConfig = {
@@ -49,11 +54,15 @@ const reducer: React.Reducer<GameState, GameAction> = (state, action) => {
     return submitGuess(state, action);
   }
 
+  if (action.type === "SetError") {
+    return setError(state, action);
+  }
+
   return state;
 };
 
 export const GameStateProvider: React.FC<Props> = ({ children }) => {
-  const { solution, gameNumber } = useSolution();
+  const { gameNumber } = useSolution();
 
   const initialState: GameState = React.useMemo(
     () => ({

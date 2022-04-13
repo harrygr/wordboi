@@ -4,6 +4,7 @@ import { gameConfig, useGameState } from "../GameState";
 import { useSolution } from "../useSolution";
 import { useStats } from "../useStats";
 import { Board } from "./Board";
+import { ErrorMessage } from "./ErrorMessage";
 import { FailMessage } from "./FailMessage";
 import { GameStats } from "./GameStats";
 import { Keyboard } from "./Keyboard";
@@ -57,9 +58,7 @@ export const Game: React.FC<Props> = ({ statsVisible, setStatsVisible }) => {
       {hasWon ? <WinMessage /> : null}
       {hasLost ? <FailMessage solution={solution} /> : null}
 
-      {state.errorMessage ? (
-        <div className="text-red-500">{state.errorMessage}</div>
-      ) : null}
+      <ErrorMessage message={state.errorMessage} dispatch={dispatch} />
 
       <Keyboard dispatch={dispatch} guesses={state.board} solution={solution} />
       <GameStats

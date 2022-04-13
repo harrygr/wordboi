@@ -1,5 +1,6 @@
 import {
   DeleteLetterAction,
+  SetErrorAction,
   SubmitGuessAction,
   SubmitLetterAction,
 } from "./GameActions";
@@ -92,3 +93,12 @@ export const submitGuess: React.Reducer<GameState, SubmitGuessAction> = (
     O.getOrElse(() => state)
   );
 };
+
+export const setError: React.Reducer<GameState, SetErrorAction> = (
+  state,
+  { message }
+) =>
+  pipe(
+    state,
+    errorMessageLens.modify(() => message)
+  );
