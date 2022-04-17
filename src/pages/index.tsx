@@ -14,7 +14,7 @@ const Home: NextPage = () => {
       <Head>
         <title>Wordboi</title>
 
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
       </Head>
       <div className="container mx-auto px-4">
         <Header showStats={() => setStatsVisible(true)} />
