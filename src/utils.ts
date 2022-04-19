@@ -11,3 +11,8 @@ export const isNil = <T>(
 export const isValidWord = (word: string) => {
   return validWords.includes(word);
 };
+
+export const inspect = <T>(thing: T) => {
+  console.log(thing);
+  return thing;
+};

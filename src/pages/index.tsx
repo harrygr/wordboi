@@ -29,7 +29,7 @@ const Home: NextPage = () => {
           </GameStateProvider>
         </main>
 
-        <footer className="mt-10 flex justify-between text-gray-300 text-sm items-center">
+        <footer className="mt-8 py-4 flex justify-between text-gray-300 text-sm items-center">
           <span>&copy; 2022</span>
           <a
             href="https://github.com/harrygr/wordboi"
