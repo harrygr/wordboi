@@ -22,7 +22,7 @@ export const Key: React.FC<{
   return (
     <button
       type="button"
-      className={`${bgClass} rounded-md flex justify-center items-center h-12 flex-1 font-bold`}
+      className={`${bgClass} rounded-md flex justify-center items-center h-14 font-bold col-span-2`}
       onClick={() => dispatch({ type: "SubmitLetter", letter })}
     >
       {letter.toUpperCase()}
@@ -40,8 +40,8 @@ export const Keyboard: React.FC<{
     [guesses, solution]
   );
   return (
-    <div className="space-y-1">
-      <div className="flex space-x-1">
+    <div className="space-y-1 max-w-lg mx-auto">
+      <div className="grid grid-cols-20 gap-1">
         <Key letterStates={ls} dispatch={dispatch} letter="q" />
         <Key letterStates={ls} dispatch={dispatch} letter="w" />
         <Key letterStates={ls} dispatch={dispatch} letter="e" />
@@ -53,8 +53,8 @@ export const Keyboard: React.FC<{
         <Key letterStates={ls} dispatch={dispatch} letter="o" />
         <Key letterStates={ls} dispatch={dispatch} letter="p" />
       </div>
-      <div className="flex space-x-1">
-        <div className="flex-[0.5] -mr-1" />
+      <div className="grid grid-cols-20 gap-1">
+        <div className="col-span-1 -mr-1" />
         <Key letterStates={ls} dispatch={dispatch} letter="a" />
         <Key letterStates={ls} dispatch={dispatch} letter="s" />
         <Key letterStates={ls} dispatch={dispatch} letter="d" />
@@ -64,11 +64,11 @@ export const Keyboard: React.FC<{
         <Key letterStates={ls} dispatch={dispatch} letter="j" />
         <Key letterStates={ls} dispatch={dispatch} letter="k" />
         <Key letterStates={ls} dispatch={dispatch} letter="l" />
-        <div className="flex-[0.5]" />
+        <div className="col-span-1" />
       </div>
-      <div className="flex space-x-1">
+      <div className="grid grid-cols-20 gap-1">
         <button
-          className="bg-gray-300 rounded-md flex justify-center items-center h-12 flex-[1.5]"
+          className="bg-gray-300 rounded-md flex justify-center items-center h-14 col-span-3"
           onClick={() => dispatch({ type: "SubmitGuess" })}
         >
           ↩
@@ -81,7 +81,7 @@ export const Keyboard: React.FC<{
         <Key letterStates={ls} dispatch={dispatch} letter="n" />
         <Key letterStates={ls} dispatch={dispatch} letter="m" />
         <button
-          className="bg-gray-300 rounded-md flex justify-center items-center h-12 flex-[1.5]"
+          className="bg-gray-300 rounded-md flex justify-center items-center h-14 col-span-3"
           onClick={() => dispatch({ type: "DeleteLetter" })}
         >
           ⌫

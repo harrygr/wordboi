@@ -16,7 +16,7 @@ const Home: NextPage = () => {
 
         <link rel="icon" href="/favicon.svg" />
       </Head>
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-2 md:px-4">
         <Header showStats={() => setStatsVisible(true)} />
 
         <main>
