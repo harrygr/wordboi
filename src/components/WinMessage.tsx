@@ -15,7 +15,7 @@ export const WinMessage: React.FC<Props> = ({}) => {
   });
 
   return (
-    <div className="text-green-700">
+    <div className="text-green-700 text-center">
       <p>
         Congratulations! You got it! 🎉{" "}
         <button

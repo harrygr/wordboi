@@ -3,7 +3,6 @@ import Head from "next/head";
 import React from "react";
 import { CodeIcon } from "../components/CodeIcon";
 import { Game } from "../components/Game";
-import { GameStats } from "../components/GameStats";
 import { Header } from "../components/Header";
 import { GameStateProvider, useGameState } from "../GameState";
 
