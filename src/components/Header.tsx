@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useGameState } from "../GameState";
 import { useSolution } from "../useSolution";
+import { ChartIcon } from "./ChartIcon";
 
 interface Props {
   showStats: () => void;
@@ -14,7 +15,9 @@ export const Header: React.FC<Props> = ({ showStats }) => {
         <span className="font-semibold">Wordboi</span>
         <span className="text-gray-400">#{gameNumber}</span>
       </h1>
-      <button onClick={showStats}>📊</button>
+      <button onClick={showStats} title="Show stats">
+        <ChartIcon />
+      </button>
     </header>
   );
 };

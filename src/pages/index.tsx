@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
+import { CodeIcon } from "../components/CodeIcon";
 import { Game } from "../components/Game";
 import { GameStats } from "../components/GameStats";
 import { Header } from "../components/Header";
@@ -27,6 +28,19 @@ const Home: NextPage = () => {
             />
           </GameStateProvider>
         </main>
+
+        <footer className="mt-10 flex justify-between text-gray-300 text-sm items-center">
+          <span>&copy; 2022</span>
+          <a
+            href="https://github.com/harrygr/wordboi"
+            title="Wordboi source"
+            target="_blank"
+            rel="noreferrer"
+            className=" hover:text-gray-500"
+          >
+            <CodeIcon />
+          </a>
+        </footer>
       </div>
     </div>
   );
