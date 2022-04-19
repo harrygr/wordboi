@@ -5,13 +5,14 @@ describe("shareString", () => {
     const board = ["player", "chance", "", "", "", ""];
     const solution = "chance";
     const shareString = getShareString(board, solution, 8);
-
-    expect(shareString).toBe(`Wordboi #8 2/6 🎉
+    expect(shareString).toMatchInlineSnapshot(`
+"Wordboi #8 2/6 🎉
 
 ⬜️⬜️🟩⬜️🟧⬜️
 🟩🟩🟩🟩🟩🟩
 
-http://localhost`);
+http://localhost"
+`);
   });
 
   it("generates a shareable string for failure", () => {
@@ -19,7 +20,8 @@ http://localhost`);
     const solution = "places";
     const shareString = getShareString(board, solution, 8);
 
-    expect(shareString).toBe(`Wordboi #8 X/6 💩
+    expect(shareString).toMatchInlineSnapshot(`
+"Wordboi #8 X/6 💩
 
 🟩🟩🟩⬜️🟩⬜️
 🟧⬜️🟩⬜️⬜️🟧
@@ -28,6 +30,7 @@ http://localhost`);
 ⬜️🟩🟩⬜️🟧🟧
 ⬜️⬜️🟩⬜️🟧🟧
 
-http://localhost`);
+http://localhost"
+`);
   });
 });
