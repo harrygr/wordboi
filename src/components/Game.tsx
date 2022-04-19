@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { gameConfig, useGameState } from "../GameState";
+import { checkGameResult } from "../reportGameResult";
 
 import { useSolution } from "../useSolution";
 import { useStats } from "../useStats";
@@ -30,20 +31,25 @@ export const Game: React.FC<Props> = ({ statsVisible, setStatsVisible }) => {
     return () => removeEventListener("keypress", handler);
   }, [dispatch]);
 
+  const submitGuess = React.useCallback(() => {
+    dispatch({ type: "SubmitGuess" });
+    checkGameResult(state);
+  }, [state, dispatch]);
+
   React.useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Backspace") {
         dispatch({ type: "DeleteLetter" });
       }
       if (e.key === "Enter") {
-        dispatch({ type: "SubmitGuess" });
+        submitGuess();
       }
     };
 
     addEventListener("keydown", handler);
 
     return () => removeEventListener("keydown", handler);
-  }, [dispatch]);
+  }, [dispatch, submitGuess]);
 
   const hasWon = state.board.some((word) => word === solution);
   const hasLost =
@@ -61,7 +67,12 @@ export const Game: React.FC<Props> = ({ statsVisible, setStatsVisible }) => {
 
       <ErrorMessage message={state.errorMessage} dispatch={dispatch} />
 
-      <Keyboard dispatch={dispatch} guesses={state.board} solution={solution} />
+      <Keyboard
+        dispatch={dispatch}
+        guesses={state.board}
+        solution={solution}
+        submitGuess={submitGuess}
+      />
       <GameStats
         results={results}
         isOpen={statsVisible}

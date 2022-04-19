@@ -12,7 +12,7 @@ import * as A from "fp-ts/Array";
 import { constNull, pipe } from "fp-ts/function";
 import { Lens } from "monocle-ts";
 import { wordList } from "./wordList";
-import { reportGameResult } from "./reportGameResult";
+
 
 export const gameResult = ({
   board,
@@ -69,7 +69,6 @@ export const submitGuess: React.Reducer<GameState, SubmitGuessAction> = (
   state,
   _action
 ) => {
-  console.log("submitGuess dispatched");
   const solution = wordList[state.gameNumber];
 
   const { hasEnded } = gameResult(state);
@@ -103,13 +102,7 @@ export const submitGuess: React.Reducer<GameState, SubmitGuessAction> = (
           boardLens.modify(() => updatedBoard)
         )
     ),
-    O.getOrElse(() => state),
-    (state) => {
-      // a bit of a smell to report the result in the reducer, but 🤷‍♂️
-      console.log("reporting game result");
-      reportGameResult(state);
-      return state;
-    }
+    O.getOrElse(() => state)
   );
 };
 

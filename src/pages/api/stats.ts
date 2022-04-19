@@ -5,12 +5,9 @@ import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import * as T from "fp-ts/Task";
 import { pushStat } from "../../stathat";
+import { config } from "../../config";
+import { StatName } from "../../statTypes";
 
-export const StatName = t.union([
-  t.literal("wordboi.game_won"),
-  t.literal("wordboi.game_lost"),
-  t.literal("wordboi.test"),
-]);
 
 const StatQuery = t.type({ stat: StatName });
 

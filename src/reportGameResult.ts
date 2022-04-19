@@ -1,21 +1,32 @@
+import { pipe } from "fp-ts/lib/function";
 import { config } from "./config";
-import { gameResult } from "./GameReducers";
+import { gameResult, submitGuess } from "./GameReducers";
 import { GameState } from "./GameState";
+import { StatName } from "./statTypes";
 
-export const reportGameResult = (
-  state: Pick<GameState, "board" | "gameNumber">
-) => {
-  const { hasLost, hasWon, hasEnded } = gameResult(state);
+/**
+ * Calculate the game result seperately from the main reducer and report the
+ * outcome of submitting a guess if the game ends as a result of this submission.
+ * @param state
+ */
+export const checkGameResult = (state: GameState) => {
+  const { hasLost, hasWon, hasEnded } = pipe(
+    submitGuess(state, { type: "SubmitGuess" }),
+    gameResult
+  );
   if (hasEnded) {
-    fetch(`/api/stats?stat=wordboi.${config.env}.game_played`).catch(
-      () => null
-    );
+    console.log("Game ended");
+    reportStat(`wordboi.${config.env}.game_played`);
   }
 
   if (hasWon) {
-    fetch(`/api/stats?stat=wordboi.${config.env}.game_won`).catch(() => null);
+    reportStat(`wordboi.${config.env}.game_won`);
   }
   if (hasLost) {
-    fetch(`/api/stats?stat=wordboi.${config.env}.game_lost`).catch(() => null);
+    reportStat(`wordboi.${config.env}.game_lost`);
   }
+};
+
+const reportStat = (stat: StatName) => {
+  fetch(`/api/stats?stat=${stat}`).catch(() => null);
 };
