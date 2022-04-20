@@ -5,7 +5,7 @@ import { contramap } from "fp-ts/Ord";
 import { Ord as NOrd } from "fp-ts/number";
 import { gameConfig } from "./GameState";
 import { pipe } from "fp-ts/lib/function";
-import { GameResults } from "./useStats";
+import { GameResults } from "./useGameResults";
 
 type GuessDistributionLookup = Record<string, number>;
 

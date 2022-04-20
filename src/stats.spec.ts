@@ -1,5 +1,5 @@
 import { getGuessDistribution, getStreaks } from "./stats";
-import { GameResults } from "./useStats";
+import { GameResults } from "./useGameResults";
 
 describe("Guess distribution", () => {
   it("calculates the guess distribution from a list of results", () => {

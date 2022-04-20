@@ -1,16 +1,17 @@
 import * as React from "react";
+import { checkGameResult } from "../checkGameResult";
 
 import { gameConfig, useGameState } from "../GameState";
-import { checkGameResult } from "../reportGameResult";
 
 import { useSolution } from "../useSolution";
-import { useStats } from "../useStats";
+
 import { Board } from "./Board";
 import { ErrorMessage } from "./ErrorMessage";
 import { FailMessage } from "./FailMessage";
 import { GameStats } from "./GameStats";
 import { Keyboard } from "./Keyboard";
 import { WinMessage } from "./WinMessage";
+import { useReportGameResult } from "../useReportGameResult";
 
 interface Props {
   statsVisible: boolean;
@@ -51,12 +52,12 @@ export const Game: React.FC<Props> = ({ statsVisible, setStatsVisible }) => {
     return () => removeEventListener("keydown", handler);
   }, [dispatch, submitGuess]);
 
+  useReportGameResult();
+
   const hasWon = state.board.some((word) => word === solution);
   const hasLost =
     !hasWon &&
     state.board.filter((word) => word !== "").length === gameConfig.maxGuesses;
-
-  const results = useStats(state);
 
   return (
     <div className="space-y-6">
@@ -73,11 +74,7 @@ export const Game: React.FC<Props> = ({ statsVisible, setStatsVisible }) => {
         solution={solution}
         submitGuess={submitGuess}
       />
-      <GameStats
-        results={results}
-        isOpen={statsVisible}
-        setIsOpen={setStatsVisible}
-      />
+      <GameStats isOpen={statsVisible} setIsOpen={setStatsVisible} />
     </div>
   );
 };
