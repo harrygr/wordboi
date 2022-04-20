@@ -1,21 +1,19 @@
-import { boolean } from "fp-ts";
 import * as A from "fp-ts/Array";
-import * as R from "fp-ts/Record";
 import * as O from "fp-ts/Option";
 import * as React from "react";
-import { GameResults } from "../useStats";
+import { useGameResults } from "../useGameResults";
 import { Dialog } from "@headlessui/react";
 import { pipe } from "fp-ts/lib/function";
-import { gameConfig } from "../GameState";
 import { getGuessDistribution, getStreaks } from "../stats";
 
 interface Props {
-  results: GameResults;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const GameStats: React.FC<Props> = ({ isOpen, setIsOpen, results }) => {
+export const GameStats: React.FC<Props> = ({ isOpen, setIsOpen }) => {
+  const results = useGameResults();
+
   const resultList = Object.values(results);
   const winList = resultList.filter((r): r is number => r !== "x");
   const gamesPlayed = resultList.length;

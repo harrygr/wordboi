@@ -19,11 +19,10 @@ export const gameResult = ({
   gameNumber,
 }: Pick<GameState, "board" | "gameNumber">) => {
   const hasWon = board.some((word) => word === wordList[gameNumber]);
-  const hasLost =
-    !hasWon &&
-    board.filter((word) => word !== "").length >= gameConfig.maxGuesses;
+  const guessCount = board.filter((word) => word !== "").length;
+  const hasLost = !hasWon && guessCount >= gameConfig.maxGuesses;
 
-  return { hasWon, hasLost, hasEnded: hasWon || hasLost };
+  return { hasWon, hasLost, hasEnded: hasWon || hasLost, guessCount };
 };
 
 const currentGuessLens = Lens.fromProp<GameState>()("currentGuess");
