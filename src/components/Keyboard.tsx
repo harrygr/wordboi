@@ -22,7 +22,7 @@ export const Key: React.FC<{
   return (
     <button
       type="button"
-      className={`${bgClass} rounded-md flex justify-center items-center h-14 font-bold col-span-2`}
+      className={`${bgClass} rounded-md flex justify-center items-center h-14 font-bold col-span-2 select-none`}
       onClick={() => dispatch({ type: "SubmitLetter", letter })}
     >
       {letter.toUpperCase()}
