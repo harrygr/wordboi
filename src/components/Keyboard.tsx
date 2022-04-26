@@ -8,6 +8,9 @@ import { letterStates } from "../letterStates";
 import { getCellStyle } from "../cellStyle";
 import { GameAction } from "../GameActions";
 
+const baseKeyStyle =
+  "rounded-md flex justify-center items-center h-14 font-bold select-none";
+
 export const Key: React.FC<{
   letter: string;
   dispatch: React.Dispatch<GameAction>;
@@ -22,7 +25,7 @@ export const Key: React.FC<{
   return (
     <button
       type="button"
-      className={`${bgClass} rounded-md flex justify-center items-center h-14 font-bold col-span-2 select-none`}
+      className={`${bgClass} ${baseKeyStyle} col-span-2`}
       onClick={() => dispatch({ type: "SubmitLetter", letter })}
     >
       {letter.toUpperCase()}
@@ -69,7 +72,7 @@ export const Keyboard: React.FC<{
       </div>
       <div className="grid grid-cols-20 gap-1">
         <button
-          className="bg-gray-300 rounded-md flex justify-center items-center h-14 col-span-3"
+          className={`${baseKeyStyle} bg-gray-300 col-span-3`}
           onClick={submitGuess}
         >
           ↩
@@ -82,7 +85,7 @@ export const Keyboard: React.FC<{
         <Key letterStates={ls} dispatch={dispatch} letter="n" />
         <Key letterStates={ls} dispatch={dispatch} letter="m" />
         <button
-          className="bg-gray-300 rounded-md flex justify-center items-center h-14 col-span-3"
+          className={`${baseKeyStyle} bg-gray-300 col-span-3`}
           onClick={() => dispatch({ type: "DeleteLetter" })}
         >
           ⌫
