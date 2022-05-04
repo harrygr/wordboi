@@ -13,8 +13,6 @@ it("subs and pubs for an event", () => {
     handler(payload)
   );
 
-  // EventBus.subscribe('thing_happened', (thing) => )
-
   EventBus.publish("game_played", { result: "win" });
 
   expect(handler).toHaveBeenCalledWith({ result: "win" });
@@ -26,3 +24,4 @@ it("subs and pubs for an event", () => {
 
   expect(handler).not.toHaveBeenCalled();
 });
+
