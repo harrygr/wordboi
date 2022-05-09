@@ -17,7 +17,7 @@ export const FailMessage: React.FC<Props> = ({}) => {
   });
 
   return (
-    <div className="text-red-500">
+    <div className="text-red-500 text-center">
       <p>
         You lose! The answer was <span className="font-bold">{solution}</span>
         <button
