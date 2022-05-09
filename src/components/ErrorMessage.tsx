@@ -25,7 +25,7 @@ export const ErrorMessage: React.FC<Props> = ({ message, dispatch }) => {
   return message ? (
     <div
       onClick={clearMessage}
-      className="text-red-600 text-lg  text-center absolute left-1/2 -translate-x-1/2 top-20 bg-gray-200 py-6 px-8 rounded bg-opacity-20 firefox:bg-opacity-90 firefox:bg-gray-100 backdrop-filter backdrop-blur shadow-lg"
+      className="text-red-400 text-lg  text-center absolute left-1/2 -translate-x-1/2 top-20 bg-gray-900  py-6 px-8 rounded bg-opacity-80 firefox:bg-opacity-95  backdrop-filter backdrop-blur shadow-lg"
     >
       {message}
     </div>
