@@ -1,7 +1,7 @@
 import * as React from "react";
 import { checkGameResult } from "../checkGameResult";
 
-import { gameConfig, useGameState } from "../GameState";
+import { useGameState } from "../GameState";
 
 import { useSolution } from "../useSolution";
 
@@ -12,6 +12,7 @@ import { GameStats } from "./GameStats";
 import { Keyboard } from "./Keyboard";
 import { WinMessage } from "./WinMessage";
 import { useReportGameResult } from "../useReportGameResult";
+import { gameConfig } from "../config";
 
 interface Props {
   statsVisible: boolean;

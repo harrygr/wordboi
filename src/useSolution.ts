@@ -1,8 +1,11 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { gameConfig } from "./GameState";
+import { gameConfig } from "./config";
+
 import { diffInDays } from "./utils";
 import { wordList } from "./wordList";
+
+const todaysGameNumber = diffInDays(new Date(), gameConfig.firstDay);
 
 export const useSolution = () => {
   const router = useRouter();
@@ -12,9 +15,7 @@ export const useSolution = () => {
   const gameNumber = React.useMemo(() => {
     const n = parseInt(`${router.query.n}`, 10);
 
-    return typeof n === "number" && !isNaN(n)
-      ? n
-      : diffInDays(new Date(), gameConfig.firstDay);
+    return typeof n === "number" && !isNaN(n) ? n : todaysGameNumber;
   }, [router.query.n]);
 
   const solution = React.useMemo(() => wordList[gameNumber], [gameNumber]);

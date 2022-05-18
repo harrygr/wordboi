@@ -1,7 +1,6 @@
+import { gameConfig } from "./config";
 import { getEvaluations } from "./evaluation";
-import { gameConfig, GameState } from "./GameState";
-
-
+import { GameState } from "./GameState";
 
 export const getShareString = (
   board: GameState["board"],

@@ -4,7 +4,7 @@ import {
   SubmitGuessAction,
   SubmitLetterAction,
 } from "./GameActions";
-import { gameConfig, GameState } from "./GameState";
+import { GameState } from "./GameState";
 import { isValidLetter } from "./letterValidation";
 import { isValidWord } from "./utils";
 import * as O from "fp-ts/Option";
@@ -12,7 +12,7 @@ import * as A from "fp-ts/Array";
 import { constNull, pipe } from "fp-ts/function";
 import { Lens } from "monocle-ts";
 import { wordList } from "./wordList";
-
+import { gameConfig } from "./config";
 
 export const gameResult = ({
   board,

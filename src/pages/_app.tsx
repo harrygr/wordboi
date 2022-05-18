@@ -1,10 +1,9 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
 import { config } from "../config";
 import Head from "next/head";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  console.log(config);
+function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
@@ -21,4 +20,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp
+export default App;

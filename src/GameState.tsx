@@ -13,11 +13,7 @@ import {
   submitGuess,
   submitLetter,
 } from "./GameReducers";
-
-export const gameConfig = {
-  firstDay: new Date(2022, 3, 1),
-  maxGuesses: 6,
-};
+import { gameConfig } from "./config";
 
 interface Props {
   children: React.ReactNode;

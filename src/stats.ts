@@ -3,9 +3,10 @@ import * as R from "fp-ts/Record";
 import * as O from "fp-ts/Option";
 import { contramap } from "fp-ts/Ord";
 import { Ord as NOrd } from "fp-ts/number";
-import { gameConfig } from "./GameState";
+
 import { pipe } from "fp-ts/lib/function";
 import { GameResults } from "./useGameResults";
+import { gameConfig } from "./config";
 
 type GuessDistributionLookup = Record<string, number>;
 
