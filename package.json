@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@headlessui/react": "^1.5.0",
+    "@headlessui/react": "^1.6.6",
     "axios": "^0.26.1",
     "fp-ts": "^2.11.9",
     "io-ts": "^2.2.16",

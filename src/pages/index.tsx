@@ -4,7 +4,7 @@ import React from "react";
 import { CodeIcon } from "../components/CodeIcon";
 import { Game } from "../components/Game";
 import { Header } from "../components/Header";
-import { GameStateProvider, useGameState } from "../GameState";
+import { GameStateProvider } from "../GameState";
 
 const Home: NextPage = () => {
   const [statsVisible, setStatsVisible] = React.useState(false);

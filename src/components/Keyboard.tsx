@@ -19,7 +19,7 @@ export const Key: React.FC<{
   const bgClass = pipe(
     O.fromNullable(letterStates[letter]),
     O.map(getCellStyle),
-    O.getOrElse(() => "bg-gray-300")
+    O.getOrElse(() => "bg-gray-300 active:bg-gray-400")
   );
 
   return (
