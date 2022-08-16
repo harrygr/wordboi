@@ -15,6 +15,22 @@ const Home: NextPage = () => {
         <title>Wordboi</title>
 
         <link rel="icon" href="/favicon.svg" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+        <link
+          rel="apple-touch-icon"
+          sizes="192x192"
+          href="/icons/android-chrome-192x192.png"
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="512x512"
+          href="/icons/android-chrome-512x512.png"
+        />
+
+        <link rel="manifest" href="/manifest.json" />
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="theme-color" content="#ffffff" />
       </Head>
       <div className="container mx-auto px-2 md:px-4">
         <Header showStats={() => setStatsVisible(true)} />
