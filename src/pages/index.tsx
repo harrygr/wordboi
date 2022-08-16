@@ -30,6 +30,7 @@ const Home: NextPage = () => {
         <link rel="manifest" href="/manifest.json" />
 
         <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="theme-color" content="#ffffff" />
       </Head>
       <div className="container mx-auto px-2 md:px-4">
         <Header showStats={() => setStatsVisible(true)} />
