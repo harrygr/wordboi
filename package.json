@@ -12,6 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^1.6.6",
     "axios": "^0.26.1",
+    "event-boi": "^1.0.0",
     "fp-ts": "^2.11.9",
     "io-ts": "^2.2.16",
     "monocle-ts": "^2.3.13",

@@ -2907,6 +2907,11 @@ esutils@^2.0.2:
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
   integrity sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==
 
+event-boi@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/event-boi/-/event-boi-1.0.0.tgz#b72a7203759a13da3e29736b1cda201866a0285c"
+  integrity sha512-3+1WNn0aQ2SDJc6BcSnNH3jFD/3tk5P2/XP0UNdpGZbr/JKYlQe47nVJ2goTYw5JSQ3YYhTJmVol++nyN4aZcA==
+
 execa@^5.0.0:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/execa/-/execa-5.1.1.tgz#f80ad9cbf4298f7bd1d4c9555c21e93741c411dd"
