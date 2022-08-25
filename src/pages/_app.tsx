@@ -11,12 +11,14 @@ function App({ Component, pageProps }: AppProps) {
           name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no"
         />
-        <script
-          async
-          defer
-          data-website-id={config.umamiSiteId}
-          src="https://umami-hg.fly.dev/umami.js"
-        ></script>
+        {config.umamiScriptUrl && config.umamiSiteId ? (
+          <script
+            async
+            defer
+            data-website-id={config.umamiSiteId}
+            src={config.umamiScriptUrl}
+          ></script>
+        ) : null}
       </Head>
 
       <Component {...pageProps} />
