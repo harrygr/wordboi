@@ -12,7 +12,7 @@ import { GameStats } from "./GameStats";
 import { Keyboard } from "./Keyboard";
 import { WinMessage } from "./WinMessage";
 import { useReportGameResult } from "../useReportGameResult";
-import { gameConfig } from "../config";
+import { gameResult } from "../GameReducers";
 
 interface Props {
   statsVisible: boolean;
@@ -55,10 +55,7 @@ export const Game: React.FC<Props> = ({ statsVisible, setStatsVisible }) => {
 
   useReportGameResult();
 
-  const hasWon = state.board.some((word) => word === solution);
-  const hasLost =
-    !hasWon &&
-    state.board.filter((word) => word !== "").length === gameConfig.maxGuesses;
+  const { hasWon, hasLost } = gameResult(state);
 
   return (
     <div className="space-y-6">
