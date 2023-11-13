@@ -1,5 +1,6 @@
 import { deleteLetter, submitGuess, submitLetter } from "./GameReducers";
 import * as utils from "./utils";
+import { describe, it, expect, vi, afterEach } from "vitest";
 
 describe("submitLetter", () => {
   it("adds a letter to the current guess", () => {
@@ -76,7 +77,7 @@ describe("deleteLetter", () => {
 
 describe("submitGuess", () => {
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it("submits a guess to the board, assuming a valid word", () => {
@@ -87,7 +88,7 @@ describe("submitGuess", () => {
       gameNumber: 1,
     };
 
-    jest.spyOn(utils, "isValidWord").mockReturnValue(true);
+    vi.spyOn(utils, "isValidWord").mockReturnValue(true);
     const newState = submitGuess(state, { type: "SubmitGuess" });
 
     expect(newState).toEqual(
@@ -107,7 +108,7 @@ describe("submitGuess", () => {
       gameNumber: 1,
     };
 
-    jest.spyOn(utils, "isValidWord").mockReturnValue(false);
+    vi.spyOn(utils, "isValidWord").mockReturnValue(false);
     const newState = submitGuess(state, { type: "SubmitGuess" });
 
     expect(newState).toEqual(

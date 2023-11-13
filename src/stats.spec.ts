@@ -1,5 +1,6 @@
 import { getGuessDistribution, getStreaks } from "./stats";
 import { GameResults } from "./useGameResults";
+import { describe, it, expect } from "vitest";
 
 describe("Guess distribution", () => {
   it("calculates the guess distribution from a list of results", () => {

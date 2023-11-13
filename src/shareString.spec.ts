@@ -1,6 +1,14 @@
 import { getShareString } from "./shareString";
+import { describe, it, expect, vi } from "vitest";
 
 describe("shareString", () => {
+  vi.stubGlobal("window", {
+    location: {
+      protocol: "http:",
+      host: "localhost",
+    },
+  });
+
   it("generates a shareable string", () => {
     const board = ["player", "chance", "", "", "", ""];
     const solution = "chance";
