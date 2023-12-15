@@ -2,16 +2,14 @@ import * as React from "react";
 import { useGameState } from "../GameState";
 import { getShareString } from "../shareString";
 import { useShare } from "../useShare";
-import { useSolution } from "../useSolution";
 
 interface Props {}
 
 export const WinMessage: React.FC<Props> = ({}) => {
   const [state] = useGameState();
-  const { solution, gameNumber } = useSolution();
 
   const share = useShare({
-    text: getShareString(state.board, solution, gameNumber),
+    text: getShareString(state.board, state.solution, state.gameNumber),
   });
 
   return (

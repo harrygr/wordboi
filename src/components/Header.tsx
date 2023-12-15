@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useGameState } from "../GameState";
-import { useSolution } from "../useSolution";
 import { ChartIcon } from "./ChartIcon";
 
 interface Props {
@@ -8,7 +7,7 @@ interface Props {
 }
 
 export const Header: React.FC<Props> = ({ showStats }) => {
-  const { gameNumber } = useSolution();
+  const [{ gameNumber }] = useGameState();
   return (
     <header className="text-3xl py-4 flex justify-between">
       <h1>

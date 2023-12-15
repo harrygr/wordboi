@@ -13,6 +13,7 @@ const Home: NextPage = () => {
     <div>
       <Head>
         <title>Wordboi</title>
+        <meta name="description" content="A 6-letter word game" />
 
         <link rel="icon" href="/favicon.svg" />
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
@@ -33,16 +34,16 @@ const Home: NextPage = () => {
         <meta name="theme-color" content="#ffffff" />
       </Head>
       <div className="container mx-auto px-2 md:px-4">
-        <Header showStats={() => setStatsVisible(true)} />
+        <GameStateProvider>
+          <Header showStats={() => setStatsVisible(true)} />
 
-        <main>
-          <GameStateProvider>
+          <main>
             <Game
               statsVisible={statsVisible}
               setStatsVisible={setStatsVisible}
             />
-          </GameStateProvider>
-        </main>
+          </main>
+        </GameStateProvider>
 
         <footer className="mt-8 py-4 flex justify-between text-gray-300 text-sm items-center">
           <span>&copy; 2022</span>

@@ -3,8 +3,6 @@ import { checkGameResult } from "../checkGameResult";
 
 import { useGameState } from "../GameState";
 
-import { useSolution } from "../useSolution";
-
 import { Board } from "./Board";
 import { ErrorMessage } from "./ErrorMessage";
 import { FailMessage } from "./FailMessage";
@@ -21,7 +19,6 @@ interface Props {
 
 export const Game: React.FC<Props> = ({ statsVisible, setStatsVisible }) => {
   const [state, dispatch] = useGameState();
-  const { solution } = useSolution();
 
   React.useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -62,14 +59,14 @@ export const Game: React.FC<Props> = ({ statsVisible, setStatsVisible }) => {
       <Board board={state.board} currentGuess={state.currentGuess} />
 
       {hasWon ? <WinMessage /> : null}
-      {hasLost ? <FailMessage solution={solution} /> : null}
+      {hasLost ? <FailMessage solution={state.solution} /> : null}
 
       <ErrorMessage message={state.errorMessage} dispatch={dispatch} />
 
       <Keyboard
         dispatch={dispatch}
         guesses={state.board}
-        solution={solution}
+        solution={state.solution}
         submitGuess={submitGuess}
       />
       <GameStats isOpen={statsVisible} setIsOpen={setStatsVisible} />

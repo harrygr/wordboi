@@ -1,11 +1,6 @@
 import * as React from "react";
-import {
-  EvalutionResult,
-  getEvaluations,
-  LetterEvaluation,
-} from "../evaluation";
+import { EvalutionResult, getEvaluations } from "../evaluation";
 import { useGameState } from "../GameState";
-import { useSolution } from "../useSolution";
 
 import { GameTile } from "./GameTile";
 
@@ -15,7 +10,7 @@ interface Props {
 }
 
 export const GameRow: React.FC<Props> = ({ word, submitted }) => {
-const { solution } = useSolution();
+  const [{ solution }] = useGameState();
 
   const evaluations = submitted
     ? getEvaluations(solution, word)

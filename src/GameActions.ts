@@ -8,6 +8,7 @@ export type SetErrorAction = {
   type: "SetError";
   message: GameState["errorMessage"];
 };
+export type SetGameNumberAction = { type: "SetGameNumber"; gameNumber: number };
 
 export type GameAction =
   | { type: "Noop" }
@@ -15,4 +16,5 @@ export type GameAction =
   | SubmitLetterAction
   | DeleteLetterAction
   | SubmitGuessAction
-  | SetErrorAction;
+  | SetErrorAction
+  | SetGameNumberAction;

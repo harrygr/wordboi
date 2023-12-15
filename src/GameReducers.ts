@@ -1,10 +1,11 @@
 import {
   DeleteLetterAction,
   SetErrorAction,
+  SetGameNumberAction,
   SubmitGuessAction,
   SubmitLetterAction,
 } from "./GameActions";
-import { GameState } from "./GameState";
+import { GameState, getInitialBoard } from "./GameState";
 import { isValidLetter } from "./letterValidation";
 import { isValidWord } from "./utils";
 import * as O from "fp-ts/Option";
@@ -113,3 +114,19 @@ export const setError: React.Reducer<GameState, SetErrorAction> = (
     state,
     errorMessageLens.modify(() => message)
   );
+
+export const setGameNumber: React.Reducer<GameState, SetGameNumberAction> = (
+  state,
+  action
+) => {
+  if (action.gameNumber === state.gameNumber) {
+    return state;
+  }
+
+  return {
+    currentGuess: "",
+    errorMessage: null,
+    gameNumber: action.gameNumber,
+    board: getInitialBoard(),
+  };
+};

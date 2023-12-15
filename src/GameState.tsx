@@ -5,15 +5,17 @@ import * as E from "fp-ts/Either";
 import * as J from "fp-ts/Json";
 import { pipe } from "fp-ts/function";
 
-import { useSolution } from "./useSolution";
 import { GameAction } from "./GameActions";
 import {
+  setGameNumber,
   deleteLetter,
   setError,
   submitGuess,
   submitLetter,
 } from "./GameReducers";
 import { gameConfig } from "./config";
+import { diffInDays } from "./utils";
+import { wordList } from "./wordList";
 
 interface Props {
   children: React.ReactNode;
@@ -29,7 +31,7 @@ const GameState = t.type({
 export type GameState = t.TypeOf<typeof GameState>;
 
 const GameStateContext = React.createContext<
-  null | [GameState, React.Dispatch<GameAction>]
+  null | [GameState & { solution: string }, React.Dispatch<GameAction>]
 >(null);
 
 const reducer: React.Reducer<GameState, GameAction> = (state, action) => {
@@ -53,23 +55,45 @@ const reducer: React.Reducer<GameState, GameAction> = (state, action) => {
     return setError(state, action);
   }
 
+  if (action.type === "SetGameNumber") {
+    return setGameNumber(state, action);
+  }
+
   return state;
 };
 
-export const GameStateProvider: React.FC<Props> = ({ children }) => {
-  const { gameNumber } = useSolution();
+const getTodaysGameNumber = () => diffInDays(new Date(), gameConfig.firstDay);
+export const getInitialBoard = () =>
+  Array.from({ length: gameConfig.maxGuesses }).map(() => "");
 
-  const initialState: GameState = React.useMemo(
-    () => ({
-      board: Array.from({ length: gameConfig.maxGuesses }).map(() => ""),
-      currentGuess: "",
-      errorMessage: null,
-      gameNumber,
-    }),
-    [gameNumber]
+const initialState: GameState = {
+  board: getInitialBoard(),
+  currentGuess: "",
+  errorMessage: null,
+  gameNumber: getTodaysGameNumber(),
+};
+
+export const GameStateProvider: React.FC<Props> = ({ children }) => {
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+
+  const solution = React.useMemo(
+    () => wordList[state.gameNumber],
+    [state.gameNumber]
   );
 
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+  React.useEffect(() => {
+    // Refresh the game number when tab is focused
+    const refreshGameNumber = () => {
+      if (document.visibilityState === "visible") {
+        console.log("refreshing the game number");
+        dispatch({ type: "SetGameNumber", gameNumber: getTodaysGameNumber() });
+      }
+    };
+    document.addEventListener("visibilitychange", refreshGameNumber);
+
+    return () =>
+      document.removeEventListener("visibilitychange", refreshGameNumber);
+  }, []);
 
   React.useEffect(() => {
     // persist the game state when a new guess is submitted
@@ -91,17 +115,18 @@ export const GameStateProvider: React.FC<Props> = ({ children }) => {
       J.parse,
       E.chain<any, unknown, GameState>(GameState.decode),
       O.fromEither,
-      O.filter((state) => state.gameNumber === gameNumber),
+      // discard any persisted state if it's not for the current game
+      O.filter((localState) => localState.gameNumber === state.gameNumber),
       O.fold(
         () => dispatch({ type: "InitState", state: initialState }),
         // the persisted state matches the current game, so use it
         (state) => dispatch({ type: "InitState", state })
       )
     );
-  }, [gameNumber, initialState]);
+  }, [state.gameNumber]);
 
   return (
-    <GameStateContext.Provider value={[state, dispatch]}>
+    <GameStateContext.Provider value={[{ ...state, solution }, dispatch]}>
       {children}
     </GameStateContext.Provider>
   );
