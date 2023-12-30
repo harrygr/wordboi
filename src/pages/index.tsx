@@ -14,7 +14,6 @@ const Home: NextPage = () => {
       <Head>
         <title>Wordboi</title>
         <meta name="description" content="A 6-letter word game" />
-
         <link rel="icon" href="/favicon.svg" />
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
         <link
@@ -32,6 +31,11 @@ const Home: NextPage = () => {
 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="theme-color" content="#ffffff" />
+
+        <meta
+          name="google-site-verification"
+          content="u5EoBsRiMnqGvLobay8u07tyfgaI4_UTkEknKvsYi3U"
+        />
       </Head>
       <div className="container mx-auto px-2 md:px-4">
         <GameStateProvider>
