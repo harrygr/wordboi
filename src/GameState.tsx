@@ -62,19 +62,23 @@ const reducer: React.Reducer<GameState, GameAction> = (state, action) => {
   return state;
 };
 
-const getTodaysGameNumber = () => diffInDays(new Date(), gameConfig.firstDay);
-export const getInitialBoard = () =>
-  Array.from({ length: gameConfig.maxGuesses }).map(() => "");
+const getTodaysGameNumber = () => {
+  return diffInDays(new Date(Date.now()), gameConfig.firstDay);
+};
 
-const initialState: GameState = {
+export const getInitialBoard = () => {
+  return Array.from({ length: gameConfig.maxGuesses }).map(() => "");
+};
+
+const getInitialState = (): GameState => ({
   board: getInitialBoard(),
   currentGuess: "",
   errorMessage: null,
   gameNumber: getTodaysGameNumber(),
-};
+});
 
 export const GameStateProvider: React.FC<Props> = ({ children }) => {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const [state, dispatch] = React.useReducer(reducer, null, getInitialState);
 
   const solution = React.useMemo(
     () => wordList[state.gameNumber],
@@ -85,7 +89,6 @@ export const GameStateProvider: React.FC<Props> = ({ children }) => {
     // Refresh the game number when tab is focused
     const refreshGameNumber = () => {
       if (document.visibilityState === "visible") {
-        console.log("refreshing the game number");
         dispatch({ type: "SetGameNumber", gameNumber: getTodaysGameNumber() });
       }
     };
@@ -118,7 +121,7 @@ export const GameStateProvider: React.FC<Props> = ({ children }) => {
       // discard any persisted state if it's not for the current game
       O.filter((localState) => localState.gameNumber === state.gameNumber),
       O.fold(
-        () => dispatch({ type: "InitState", state: initialState }),
+        () => dispatch({ type: "InitState", state: getInitialState() }),
         // the persisted state matches the current game, so use it
         (state) => dispatch({ type: "InitState", state })
       )
@@ -136,7 +139,7 @@ export const useGameState = () => {
   const value = React.useContext(GameStateContext);
 
   if (!value) {
-    throw new Error("useGameState must be using inside a GameStateProvider");
+    throw new Error("useGameState must be used inside a GameStateProvider");
   }
 
   return value;
