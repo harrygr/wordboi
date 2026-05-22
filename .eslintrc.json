@@ -1,3 +1,9 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["eslint:recommended"],
+  "parser": "@typescript-eslint/parser",
+  "env": {
+    "browser": true,
+    "es2020": true
+  },
+  "rules": {}
 }

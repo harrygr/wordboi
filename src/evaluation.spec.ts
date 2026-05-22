@@ -8,7 +8,7 @@ describe("evaluating the letter states for a guess", () => {
 
     const evaluation = getEvaluations(solution, guess);
 
-    expect(evaluation).toSatisfy<EvalutionResult[]>((result) =>
+    expect(evaluation).toSatisfy((result: EvalutionResult[]) =>
       result.every((v) => v.evaluation == "absent")
     );
   });

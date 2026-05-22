@@ -9,7 +9,6 @@ import { FailMessage } from "./FailMessage";
 import { GameStats } from "./GameStats";
 import { Keyboard } from "./Keyboard";
 import { WinMessage } from "./WinMessage";
-import { useReportGameResult } from "../useReportGameResult";
 import { gameResult } from "../GameReducers";
 
 interface Props {
@@ -49,8 +48,6 @@ export const Game: React.FC<Props> = ({ statsVisible, setStatsVisible }) => {
 
     return () => removeEventListener("keydown", handler);
   }, [dispatch, submitGuess]);
-
-  useReportGameResult();
 
   const { hasWon, hasLost } = gameResult(state);
 

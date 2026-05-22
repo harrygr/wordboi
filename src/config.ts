@@ -1,8 +1,7 @@
 export const config = {
-  stathatKey: process.env.STATHAT_KEY,
-  env: process.env.NODE_ENV,
-  umamiSiteId: process.env.NEXT_PUBLIC_UMAMI_SITE_ID,
-  umamiScriptUrl: process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL,
+  env: import.meta.env.MODE,
+  umamiSiteId: import.meta.env.VITE_UMAMI_SITE_ID as string | undefined,
+  umamiScriptUrl: import.meta.env.VITE_UMAMI_SCRIPT_URL as string | undefined,
 };
 
 export const gameConfig = {
